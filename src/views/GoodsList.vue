@@ -25,92 +25,18 @@
         </el-aside>
         <el-main>
           <el-row>
-            <el-col :span="6">
+            <el-col :span="6" v-for="(item,index) in goodsList" :key="index">
               <div class="grid-content bg-purple bg">
                 <div >
-                  <img src="./../../static/1.jpg" alt="" class="img-top">
+                  <img :src="'./../static/'+item.productImage" alt="" class="img-top">
                 </div>
                 <div>
-                  <span>价格：200.00</span>
-                </div>
-                <el-button type="danger">立即购买</el-button>
-              </div>
-            </el-col>
-            <el-col :span="6">
-              <div class="grid-content bg-purple bg">
-                <div >
-                  <img src="./../../static/2.jpg" alt="" class="img-top">
+                  {{item.productName}}
                 </div>
                 <div>
-                  <span>价格：200.00</span>
+                  {{item.productPrice}}
                 </div>
-                <el-button type="danger">立即购买</el-button>
-              </div>
-            </el-col>
-            <el-col :span="6">
-              <div class="grid-content bg-purple bg">
-                <div >
-                  <img src="./../../static/3.jpg" alt="" class="img-top">
-                </div>
-                <div>
-                  <span>价格：200.00</span>
-                </div>
-                <el-button type="danger">立即购买</el-button>
-              </div>
-            </el-col>
-            <el-col :span="6">
-              <div class="grid-content bg-purple bg">
-                <div >
-                  <img src="./../../static/4.jpg" alt="" class="img-top">
-                </div>
-                <div>
-                  <span>价格：200.00</span>
-                </div>
-                <el-button type="danger">立即购买</el-button>
-              </div>
-            </el-col>
-            <el-col :span="6">
-              <div class="grid-content bg-purple bg">
-                <div >
-                  <img src="./../../static/1.jpg" alt="" class="img-top">
-                </div>
-                <div>
-                  <span>价格：200.00</span>
-                </div>
-                <el-button type="danger">立即购买</el-button>
-              </div>
-            </el-col>
-            <el-col :span="6">
-              <div class="grid-content bg-purple bg">
-                <div >
-                  <img src="./../../static/2.jpg" alt="" class="img-top">
-                </div>
-                <div>
-                  <span>价格：200.00</span>
-                </div>
-                <el-button type="danger">立即购买</el-button>
-              </div>
-            </el-col>
-            <el-col :span="6">
-              <div class="grid-content bg-purple bg">
-                <div >
-                  <img src="./../../static/3.jpg" alt="" class="img-top">
-                </div>
-                <div>
-                  <span>价格：200.00</span>
-                </div>
-                <el-button type="danger">立即购买</el-button>
-              </div>
-            </el-col>
-            <el-col :span="6">
-              <div class="grid-content bg-purple bg">
-                <div >
-                  <img src="./../../static/4.jpg" alt="" class="img-top">
-                </div>
-                <div>
-                  <span>价格：200.00</span>
-                </div>
-                <el-button type="danger">立即购买</el-button>
+                <el-button type="danger">加入购物车</el-button>
               </div>
             </el-col>
           </el-row>
@@ -126,11 +52,26 @@
   import NavHeader from '@/components/NavHeader'
   import NavBread from '@/components/NavBread'
   import NavFooter from '@/components/NavFooter'
+  import axios from 'axios'
 export default {
   name: 'GoodsList',
   data () {
     return {
-
+      goodsList:[]
+    }
+  },
+  mounted (){
+    this.getGoods();
+  },
+  methods:{
+    getGoods () {
+      axios.get('/goods').then((result)=>{
+        let res = result.data;
+        this.goodsList = res.result;
+      })
+        .catch(err=>{
+          console.log(err)
+        })
     }
   },
   components: {
@@ -172,6 +113,7 @@ export default {
   }
   ul li a{
     padding: 2px;
+    color: #000;
   }
   .bg{
     width: 85%;
