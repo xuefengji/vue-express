@@ -5,10 +5,117 @@
       <span>Goods</span>
     </nav-bread>
     <el-container class="main">
-      <el-header>Header</el-header>
+      <el-header>
+        <div class="top">
+          <span>Sort by:</span>
+          <a href="javascript:;">Default</a>
+          <a href="javascript:;">Price</a>
+        </div>
+      </el-header>
       <el-container>
-        <el-aside width="200px">Aside</el-aside>
-        <el-main>Main</el-main>
+        <el-aside width="200px">
+          <div>PRICE:</div>
+          <ul>
+            <li class="active"><a href="javascript:;">All</a></li>
+            <li><a href="javascript:;">0.00-100.00</a></li>
+            <li><a href="javascript:;">0.00-100.00</a></li>
+            <li><a href="javascript:;">0.00-100.00</a></li>
+            <li><a href="javascript:;">0.00-100.00</a></li>
+            </ul>
+        </el-aside>
+        <el-main>
+          <el-row>
+            <el-col :span="6">
+              <div class="grid-content bg-purple bg">
+                <div >
+                  <img src="./../../static/1.jpg" alt="" class="img-top">
+                </div>
+                <div>
+                  <span>价格：200.00</span>
+                </div>
+                <el-button type="danger">立即购买</el-button>
+              </div>
+            </el-col>
+            <el-col :span="6">
+              <div class="grid-content bg-purple bg">
+                <div >
+                  <img src="./../../static/2.jpg" alt="" class="img-top">
+                </div>
+                <div>
+                  <span>价格：200.00</span>
+                </div>
+                <el-button type="danger">立即购买</el-button>
+              </div>
+            </el-col>
+            <el-col :span="6">
+              <div class="grid-content bg-purple bg">
+                <div >
+                  <img src="./../../static/3.jpg" alt="" class="img-top">
+                </div>
+                <div>
+                  <span>价格：200.00</span>
+                </div>
+                <el-button type="danger">立即购买</el-button>
+              </div>
+            </el-col>
+            <el-col :span="6">
+              <div class="grid-content bg-purple bg">
+                <div >
+                  <img src="./../../static/4.jpg" alt="" class="img-top">
+                </div>
+                <div>
+                  <span>价格：200.00</span>
+                </div>
+                <el-button type="danger">立即购买</el-button>
+              </div>
+            </el-col>
+            <el-col :span="6">
+              <div class="grid-content bg-purple bg">
+                <div >
+                  <img src="./../../static/1.jpg" alt="" class="img-top">
+                </div>
+                <div>
+                  <span>价格：200.00</span>
+                </div>
+                <el-button type="danger">立即购买</el-button>
+              </div>
+            </el-col>
+            <el-col :span="6">
+              <div class="grid-content bg-purple bg">
+                <div >
+                  <img src="./../../static/2.jpg" alt="" class="img-top">
+                </div>
+                <div>
+                  <span>价格：200.00</span>
+                </div>
+                <el-button type="danger">立即购买</el-button>
+              </div>
+            </el-col>
+            <el-col :span="6">
+              <div class="grid-content bg-purple bg">
+                <div >
+                  <img src="./../../static/3.jpg" alt="" class="img-top">
+                </div>
+                <div>
+                  <span>价格：200.00</span>
+                </div>
+                <el-button type="danger">立即购买</el-button>
+              </div>
+            </el-col>
+            <el-col :span="6">
+              <div class="grid-content bg-purple bg">
+                <div >
+                  <img src="./../../static/4.jpg" alt="" class="img-top">
+                </div>
+                <div>
+                  <span>价格：200.00</span>
+                </div>
+                <el-button type="danger">立即购买</el-button>
+              </div>
+            </el-col>
+          </el-row>
+
+        </el-main>
       </el-container>
     </el-container>
     <nav-footer></nav-footer>
@@ -21,6 +128,11 @@
   import NavFooter from '@/components/NavFooter'
 export default {
   name: 'GoodsList',
+  data () {
+    return {
+
+    }
+  },
   components: {
     NavHeader,
     NavBread,
@@ -30,6 +142,9 @@ export default {
 </script>
 
 <style>
+  a{
+    text-decoration: none;
+  }
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -42,5 +157,35 @@ export default {
 }
   .main {
     margin-top: 40px;
+  }
+  .top{
+    float: right;
+  }
+  ul li{
+    list-style: none;
+    text-align: center;
+    margin: 10px;
+    text-align: left;
+  }
+  .active{
+    border-left: 2px solid red;
+  }
+  ul li a{
+    padding: 2px;
+  }
+  .bg{
+    width: 85%;
+    height: 300px;
+    /*background-color: red;*/
+    border: 1px solid red;
+    box-shadow: 5px 5px #f0f0f0;
+  }
+  .bg:hover{
+    box-shadow: 5px 5px 5px #888;
+    transform: scaleY(1.1);
+  }
+  .img-top{
+    width: 220px;
+    height: 220px;
   }
 </style>
