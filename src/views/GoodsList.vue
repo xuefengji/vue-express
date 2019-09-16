@@ -14,21 +14,19 @@
       </el-header>
       <el-container>
         <el-aside width="200px">
-          <div>PRICE:</div>
-          <ul>
-            <li class="active"><a href="javascript:;">All</a></li>
-            <li><a href="javascript:;">0.00-100.00</a></li>
-            <li><a href="javascript:;">0.00-100.00</a></li>
-            <li><a href="javascript:;">0.00-100.00</a></li>
-            <li><a href="javascript:;">0.00-100.00</a></li>
-            </ul>
+          <dl>PRICE:
+            <dt><a href="javascript:;" :class="{'active':priceChecked=='All'}">All</a></dt>
+            <dd v-for="(item,index) in priceFiter" :key="index">
+              <a href="javascript:;" @click="priceChecked=index" :class="{'active':priceChecked==index}">{{item.startPrice}}~{{item.endPrice}}</a>
+            </dd>
+          </dl>
         </el-aside>
         <el-main>
           <el-row>
             <el-col :span="6" v-for="(item,index) in goodsList" :key="index">
               <div class="grid-content bg-purple bg">
                 <div >
-                  <img :src="'./../static/'+item.productImage" alt="" class="img-top">
+                  <img v-lazy="'./../static/'+item.productImage" alt="" class="img-top">
                 </div>
                 <div>
                   {{item.productName}}
@@ -57,7 +55,26 @@ export default {
   name: 'GoodsList',
   data () {
     return {
-      goodsList:[]
+      goodsList: [],
+      priceChecked: 'All',
+      priceFiter: [
+        {
+          startPrice:"0",
+          endPrice:"100"
+        },
+        {
+          startPrice:"100",
+          endPrice:"500"
+        },
+        {
+          startPrice:"500",
+          endPrice:"1000"
+        },
+        {
+          startPrice:"1000",
+          endPrice:"2000"
+        }
+      ]
     }
   },
   mounted (){
@@ -102,19 +119,29 @@ export default {
   .top{
     float: right;
   }
-  ul li{
-    list-style: none;
-    text-align: center;
+  dl dd,dt{
+    display: block;
+    /*width: 200px;*/
     margin: 10px;
-    text-align: left;
+    text-align: center;
   }
-  .active{
-    border-left: 2px solid red;
-  }
-  ul li a{
+
+  dl a{
     padding: 2px;
     color: #000;
   }
+  dl dt:hover,dd:hover{
+    transform: scaleX(1.3);
+  }
+  dl a:hover{
+
+    color: red;
+  }
+  .active{
+    transform: scaleX(1.3);
+    color: red;
+  }
+
   .bg{
     width: 85%;
     height: 300px;
