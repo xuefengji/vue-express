@@ -9,11 +9,11 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const FriendlyErrorsPlugin = require('friendly-errors-webpack-plugin')
 const portfinder = require('portfinder')
-const express = require('express')
-const goodsList = require('../mock/goods.json')
-const app = express()
-const router =express.Router()
-app.use('/goods',router)
+// const express = require('express')
+// const goodsList = require('../mock/goods.json')
+// const app = express()
+// const router =express.Router()
+// app.use('/goods',router)
 
 const HOST = process.env.HOST
 const PORT = process.env.PORT && Number(process.env.PORT)
@@ -48,11 +48,11 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     watchOptions: {
       poll: config.dev.poll,
     },
-   before(app) {
-      app.get('/goods',function (req,res,next) {
-        res.json(goodsList)
-      })
-   }
+   // before(app) {
+   //    app.get('/goods',function (req,res,next) {
+   //      res.json(goodsList)
+   //    })
+   // }
   },
   plugins: [
     new webpack.DefinePlugin({
