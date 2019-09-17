@@ -85,8 +85,10 @@ export default {
     getGoods () {
       axios.get('/goods').then((result)=>{
         let res = result.data;
-        this.goodsList = res.result.list;
-        this.total = res.result.total;
+        if(res.status == '0'){
+          this.goodsList = res.result.list;
+          this.total = res.result.total;
+        }
       })
         .catch(err=>{
           console.log(err)

@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
-var Good = require('./../models/goods');
+var Goods = require('../models/goods');
 
 
 //连接数据库
@@ -20,7 +20,7 @@ mongoose.connection.on('disconnected',function () {
 
 
 router.get('/',function (req,res,next) {
-  Good.find({}, function (err,doc) {
+  Goods.find({}, function (err,doc) {
     if(err){
       res.json({
         status:'1',
