@@ -20,7 +20,14 @@ mongoose.connection.on('disconnected',function () {
 
 
 router.get('/',function (req,res,next) {
-  Goods.find({}, function (err,doc) {
+  let page = parseInt(req.param('page'));
+  let pageSize = parseInt(req.param('pageSize'));
+  let sort = parseInt(req.param('sort'));
+  let params = {};
+  let count = (page - 1) * pageSize;
+  let goodsModel = Goods.find(params);
+  goodsModel.sort({'salePrice':sort}).skip(count).limit(pageSize);
+  goodsModel.exec({}, function (err,doc) {
     if(err){
       res.json({
         status:'1',
@@ -38,7 +45,6 @@ router.get('/',function (req,res,next) {
       })
     }
   });
-  // next();
 })
 
 module.exports = router;
