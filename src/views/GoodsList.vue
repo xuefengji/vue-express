@@ -9,7 +9,7 @@
         <div class="top">
           <span>Sort by:</span>
           <a href="javascript:;">Default</a>
-          <a href="javascript:;">Price</a>
+          <a href="javascript:;">Price </a>
         </div>
       </el-header>
       <el-container>
