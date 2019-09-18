@@ -8,7 +8,7 @@
       <el-header>
         <div class="top">
           <span>Sort by:</span>
-          <a href="javascript:;">Default</a>
+          <a href="javascript:;" @click="sortPrice">Default</a>
           <a href="javascript:;">Price </a>
         </div>
       </el-header>
@@ -23,7 +23,7 @@
         </el-aside>
         <el-main>
           <el-row>
-            <el-col :span="6" v-for="(item,index) in goodsList" :key="index">
+            <el-col :span="6" v-for="(item,index) in goodsList" :key="index" class="good-col">
               <div class="grid-content bg-purple bg">
                 <div >
                   <img v-lazy="'./../static/'+item.productImage" alt="" class="img-top">
@@ -37,6 +37,9 @@
                 <el-button type="danger">加入购物车</el-button>
               </div>
             </el-col>
+            <div v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="30">
+              加载更多...
+            </div>
           </el-row>
 
         </el-main>
@@ -75,24 +78,57 @@ export default {
           startPrice:"1000",
           endPrice:"2000"
         }
-      ]
+      ],
+      sortBy: true,
+      page:1,
+      pageSize:8,
+      busy:false
     }
   },
   mounted (){
     this.getGoods();
   },
   methods:{
-    getGoods () {
-      axios.get('/goods').then((result)=>{
+    getGoods (flag) {
+      let params = {
+        sortBy:this.sortBy?1:-1,
+        page:this.page,
+        pageSize: this.pageSize
+      }
+      axios.get('/goods',{params:params}).then((result)=>{
         let res = result.data;
         if(res.status == '0'){
-          this.goodsList = res.result.list;
-          this.total = res.result.total;
+          if(flag){
+            this.goodsList = this.goodsList.concat(res.result.list);
+            this.total = res.result.total;
+            if(res.result.total == 0){
+              this.busy = true;
+            }else {
+              this.busy = false;
+            }
+          }else {
+            this.goodsList = res.result.list;
+            this.busy = false
+          }
+        }else{
+          this.goodsList = [];
         }
       })
         .catch(err=>{
           console.log(err)
         })
+    },
+    sortPrice () {
+      this.sortBy = !this.sortBy;
+      this.getGoods();
+    },
+    loadMore () {
+      this.busy = true;
+      setTimeout(() => {
+        this.page++;
+        this.getGoods(true);
+      }, 500);
+      this.busy = false;
     }
   },
   components: {
@@ -150,15 +186,19 @@ export default {
     width: 85%;
     height: 300px;
     /*background-color: red;*/
-    border: 1px solid red;
+    border: 1px solid gray;
     box-shadow: 5px 5px #f0f0f0;
   }
   .bg:hover{
     box-shadow: 5px 5px 5px #888;
     transform: scaleY(1.1);
+    border: 1px solid red;
   }
   .img-top{
     width: 220px;
     height: 220px;
+  }
+  .good-col{
+    margin: 10px 0;
   }
 </style>

@@ -22,7 +22,7 @@ mongoose.connection.on('disconnected',function () {
 router.get('/',function (req,res,next) {
   let page = parseInt(req.param('page'));
   let pageSize = parseInt(req.param('pageSize'));
-  let sort = parseInt(req.param('sort'));
+  let sort = parseInt(req.param('sortBy'));
   let params = {};
   let count = (page - 1) * pageSize;
   let goodsModel = Goods.find(params);
