@@ -8,16 +8,18 @@
       <el-header>
         <div class="top">
           <span>Sort by:</span>
-          <a href="javascript:;" @click="sortPrice">Default</a>
-          <a href="javascript:;">Price </a>
+          <a href="javascript:;" @click="sortPrice">
+            <span>Default</span>
+            <span>Price</span>
+          </a>
         </div>
       </el-header>
       <el-container>
         <el-aside width="200px">
           <dl>PRICE:
-            <dt><a href="javascript:;" :class="{'active':priceChecked=='All'}">All</a></dt>
+            <dt><a href="javascript:;" :class="{'active':priceChecked=='All'}" @click="setPriceFiter('all')">All</a></dt>
             <dd v-for="(item,index) in priceFiter" :key="index">
-              <a href="javascript:;" @click="priceChecked=index" :class="{'active':priceChecked==index}">{{item.startPrice}}~{{item.endPrice}}</a>
+              <a href="javascript:;" @click="setPriceFiter(index)" :class="{'active':priceChecked==index}">{{item.startPrice}}~{{item.endPrice}}</a>
             </dd>
           </dl>
         </el-aside>
@@ -34,7 +36,7 @@
                 <div>
                   {{item.salePrice}}
                 </div>
-                <el-button type="danger">加入购物车</el-button>
+                <el-button type="danger" @click="addCar">加入购物车</el-button>
               </div>
             </el-col>
             <div v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="30">
@@ -61,6 +63,8 @@ export default {
       goodsList: [],
       total:0,
       priceChecked: 'All',
+      startPrice:0,
+      endPrice:5000,
       priceFiter: [
         {
           startPrice:"0",
@@ -76,7 +80,7 @@ export default {
         },
         {
           startPrice:"1000",
-          endPrice:"2000"
+          endPrice:"5000"
         }
       ],
       sortBy: true,
@@ -93,7 +97,11 @@ export default {
       let params = {
         sortBy:this.sortBy?1:-1,
         page:this.page,
-        pageSize: this.pageSize
+        pageSize: this.pageSize,
+        // priceLevel:this.priceChecked,
+        startPrice:this.startPrice,
+        endPrice:this.endPrice
+
       }
       axios.get('/goods',{params:params}).then((result)=>{
         let res = result.data;
@@ -120,6 +128,7 @@ export default {
     },
     sortPrice () {
       this.sortBy = !this.sortBy;
+      this.page = 1
       this.getGoods();
     },
     loadMore () {
@@ -129,6 +138,22 @@ export default {
         this.getGoods(true);
       }, 500);
       this.busy = false;
+    },
+    setPriceFiter(index){
+      this.priceChecked = 'All';
+      this.startPrice = 0;
+      this.endPrice = 5000;
+      if(index!='all'){
+        this.priceChecked = index
+        this.priceChecked = index;
+        this.startPrice = this.priceFiter[index].startPrice;
+        this.endPrice = this.priceFiter[index].endPrice;
+      }
+      this.page = 1;
+      this.getGoods();
+    },
+    addCar(){
+
     }
   },
   components: {

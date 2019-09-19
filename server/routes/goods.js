@@ -23,7 +23,14 @@ router.get('/',function (req,res,next) {
   let page = parseInt(req.param('page'));
   let pageSize = parseInt(req.param('pageSize'));
   let sort = parseInt(req.param('sortBy'));
-  let params = {};
+  let startPrice = parseInt(req.param('startPrice'));
+  let endPrice = parseInt(req.param('endPrice'));
+  let params = {
+    salePrice: {
+      $gt:startPrice,
+      $lte:endPrice
+    }
+  };
   let count = (page - 1) * pageSize;
   let goodsModel = Goods.find(params);
   goodsModel.sort({'salePrice':sort}).skip(count).limit(pageSize);
@@ -46,5 +53,6 @@ router.get('/',function (req,res,next) {
     }
   });
 })
+
 
 module.exports = router;

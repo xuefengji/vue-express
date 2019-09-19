@@ -6,11 +6,12 @@ import router from './router'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import VueLazyload from 'vue-lazyload';
+import infiniteScroll from 'vue-infinite-scroll';
 
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */
-
+Vue.use(infiniteScroll);
 Vue.use(ElementUI);
 Vue.use(VueLazyload, {
   loading: '/static/loading-svg/loading-bars.svg'
