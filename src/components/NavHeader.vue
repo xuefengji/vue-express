@@ -5,14 +5,34 @@
         <img src="./../../static/logo.png">
       </a>
       <div class="fr">
-        <a href="javascript:;" class="fr">Login</a>
+        <a v-if="userName">admin</a>
+        <a href="javascript:;" class="fr"  @click="centerdialogVisible = true" v-if="!userName">Login</a>
+        <a href="javascript:;" class="fr" v-if="userName" @click="logout">Logout</a>
         <a href="javascript:;" class="fr el-icon-shopping-cart-2"></a>
       </div>
     </el-header>
+    <el-dialog
+      :visible.sync="centerdialogVisible"
+      width="30%"
+      center>
+      <span v-show="tiptool" class="tiptool">用户名或密码错误</span>
+      <el-input v-model="Uname" placeholder="请输入用户名" class="form-input" type="text" @input="tiptool = false"></el-input>
+      <el-input v-model="Pass" placeholder="请输入密码" class="form-input" type="password" @input="tiptool = false"></el-input>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="login">登 录</el-button>
+      </span>
+    </el-dialog>
   </el-container>
+
 </template>
 
 <style scoped>
+  .tiptool{
+    color: red;
+  }
+  .form-input{
+    margin: 10px 0;
+  }
   .fl{
     float: left;
   }
@@ -29,7 +49,52 @@
     line-height: 60px;
     text-align: center;
   }
+
 </style>
 
+<script>
+  import axios from 'axios'
+  export default {
+    name: 'NavHeader',
+    data (){
+      return {
+        centerdialogVisible: false,
+        Uname:'',
+        Pass:'',
+        userName: '',
+        pwd: '',
+        tiptool:false
+      }
+    },
+    methods: {
+      login(){
+        if(this.Uname!='' && this.Pass !=''){
+          axios.post('/users/login',{
+            userName:this.Uname,
+            pwd:this.Pass
+          }).then((res)=>{
+            let resp = res.data;
+            if(resp.status == '0'){
+              this.centerdialogVisible = false;
+              this.userName = resp.result
+            }else {
+              this.tiptool = true;
+            }
+          })
+        }else{
+          this.tiptool = true;
+        }
 
+      },
+      logout(){
+        axios.post('/users/logout').then((res)=>{
+          let resp = res.data;
+          if(resp.status=='0'){
+            this.userName = resp.result;
+          }
+        })
+      }
+    }
+  }
+</script>
 

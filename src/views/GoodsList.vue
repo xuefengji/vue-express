@@ -36,7 +36,7 @@
                 <div>
                   {{item.salePrice}}
                 </div>
-                <el-button type="danger" @click="addCar">加入购物车</el-button>
+                <el-button type="danger" @click="addCart(item.productId)">加入购物车</el-button>
               </div>
             </el-col>
             <div v-infinite-scroll="loadMore" infinite-scroll-disabled="busy" infinite-scroll-distance="30">
@@ -152,8 +152,17 @@ export default {
       this.page = 1;
       this.getGoods();
     },
-    addCar(){
-
+    addCart(productId){
+      axios.post('/goods/addCart',{
+        productId:productId
+      }).then((res)=>{
+        let result = res.data;
+        if(result.status == 0){
+          alert(result.result);
+      }else {
+          alert('插入失败');
+        }
+      })
     }
   },
   components: {
