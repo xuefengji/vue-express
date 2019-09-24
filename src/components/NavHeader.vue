@@ -61,10 +61,12 @@
         centerdialogVisible: false,
         Uname:'',
         Pass:'',
-        userName: '',
-        pwd: '',
+        userName:'',
         tiptool:false
       }
+    },
+    mounted(){
+
     },
     methods: {
       login(){

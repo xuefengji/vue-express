@@ -22,8 +22,9 @@ router.post('/login',function (req,res,next) {
     }else {
       if(doc){
         if(doc.userName == params.userName && doc.userPwd == params.pwd){
-          req.session.login = '1';
-          req.session.userName = doc.userName;
+          res.cookie('userId',doc.userId,{path:'/',maxAge:1000*60*60});
+          // req.session.login = '1';
+          // req.session.userName = doc.userName;
           res.json({
             status: '0',
             msg: '',

@@ -60,6 +60,7 @@ export default {
   name: 'GoodsList',
   data () {
     return {
+      username:'',
       goodsList: [],
       total:0,
       priceChecked: 'All',
@@ -90,6 +91,7 @@ export default {
     }
   },
   mounted (){
+    // this.checkLogin();
     this.getGoods();
   },
   methods:{

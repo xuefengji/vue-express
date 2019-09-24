@@ -39,7 +39,7 @@ router.get('/',function (req,res,next) {
     if(err){
       res.json({
         status:'1',
-        msg:err.message
+        msg:err.message,
       })
     }
     else{
