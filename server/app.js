@@ -11,11 +11,11 @@ var goods = require('./routes/goods');
 
 var app = express();
 
-app.use(session({
-  secret: 'keyboard cat',
-  resave: true,
-  saveUninitialized: true
-}))
+// app.use(session({
+//   secret: 'keyboard cat',
+//   resave: true,
+//   saveUninitialized: true
+// }))
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -28,6 +28,23 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(function (req,res,next) {
+  if(req.cookies.userId){
+    next();
+  }else{
+    console.log("url:"+req.originalUrl);
+    if(req.originalUrl=='/users/login' || req.originalUrl=='/users/logout' || req.originalUrl.indexOf('/goods/list')>-1){
+      next();
+    }else{
+      res.json({
+        status:'10001',
+        msg:'当前未登录',
+        result:''
+      });
+    }
+  }
+});
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);

@@ -5,9 +5,9 @@
         <img src="./../../static/logo.png">
       </a>
       <div class="fr">
-        <a v-if="userName">admin</a>
-        <a href="javascript:;" class="fr"  @click="centerdialogVisible = true" v-if="!userName">Login</a>
-        <a href="javascript:;" class="fr" v-if="userName" @click="logout">Logout</a>
+        <a v-if="getName">{{getName}}</a>
+        <a href="javascript:;" class="fr"  @click="centerdialogVisible = true" v-if="!getName">Login</a>
+        <a href="javascript:;" class="fr" v-if="getName" @click="logout">Logout</a>
         <a href="javascript:;" class="fr el-icon-shopping-cart-2"></a>
       </div>
     </el-header>
@@ -61,12 +61,13 @@
         centerdialogVisible: false,
         Uname:'',
         Pass:'',
-        userName:'',
         tiptool:false
       }
     },
-    mounted(){
-
+    computed:{
+      getName () {
+        return this.$store.state.userName
+      }
     },
     methods: {
       login(){
@@ -78,7 +79,7 @@
             let resp = res.data;
             if(resp.status == '0'){
               this.centerdialogVisible = false;
-              this.userName = resp.result
+              this.$store.commit('setName',resp.result)
             }else {
               this.tiptool = true;
             }
@@ -92,7 +93,7 @@
         axios.post('/users/logout').then((res)=>{
           let resp = res.data;
           if(resp.status=='0'){
-            this.userName = resp.result;
+            this.$store.commit('setName','');
           }
         })
       }

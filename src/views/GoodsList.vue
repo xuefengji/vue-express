@@ -91,7 +91,7 @@ export default {
     }
   },
   mounted (){
-    // this.checkLogin();
+    this.checklogin();
     this.getGoods();
   },
   methods:{
@@ -163,6 +163,14 @@ export default {
           alert(result.result);
       }else {
           alert('插入失败');
+        }
+      })
+    },
+    checklogin(){
+      axios.get('/users/checklogin').then((res)=>{
+        let resp = res.data;
+        if(resp.status=='0'){
+          this.$store.commit('setName',resp.result)
         }
       })
     }

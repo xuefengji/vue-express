@@ -23,6 +23,10 @@ router.post('/login',function (req,res,next) {
       if(doc){
         if(doc.userName == params.userName && doc.userPwd == params.pwd){
           res.cookie('userId',doc.userId,{path:'/',maxAge:1000*60*60});
+          res.cookie("userName",doc.userName,{
+            path:'/',
+            maxAge:1000*60*60
+          });
           // req.session.login = '1';
           // req.session.userName = doc.userName;
           res.json({
@@ -41,8 +45,21 @@ router.post('/login',function (req,res,next) {
   });
 })
 
-router.post('/logput',function (req,res,next) {
-  req.session.login = ''
+router.post('/logout',function (req,res,next) {
+
+})
+
+router.get('/checklogin',function (req, res, next) {
+
+  if(req.cookies.userName){
+    res.json({
+      status:'0',
+      msg:'',
+      result:req.cookies.userName
+
+    })
+  }
+
 })
 
 module.exports = router;
