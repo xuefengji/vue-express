@@ -20,7 +20,7 @@ mongoose.connection.on('disconnected',function () {
 })
 
 
-router.get('/',function (req,res,next) {
+router.get('/list',function (req,res,next) {
   var page = parseInt(req.param('page'));
   var pageSize = parseInt(req.param('pageSize'));
   var sort = parseInt(req.param('sortBy'));
@@ -56,76 +56,86 @@ router.get('/',function (req,res,next) {
 })
 
 router.post('/addCart',function (req,res,next) {
-  var userId = '100000077';
-  var productId = req.body.productId;
-  User.findOne({userId:userId},function (err,userDoc) {
-    if(err){
-      res.json({
-        status:'1',
-        msg:err.message
-      });
-    }else{
-      if(userDoc){
-        var goodsItem = '';
-        userDoc.cartList.forEach(function (item) {
-          if(item.productId == productId){
-            goodsItem = item;
-            item.productNum ++;
-          }
+  if(req.cookies.userId){
+    var userId = req.cookies.userId;
+    var productId = req.body.productId;
+    User.findOne({userId:userId},function (err,userDoc) {
+      if(err){
+        res.json({
+          status:'1',
+          msg:err.message
         });
-        if(goodsItem){
-          userDoc.save(function (err,doc) {
-            if(err){
-              res.json({
-                status:'1',
-                msg:err.message
-              });
-            }else {
-              res.json({
-                status:'0',
-                msg:'',
-                result:'sccucess'
-              });
+      }else{
+        if(userDoc){
+          var goodsItem = '';
+          userDoc.cartList.forEach(function (item) {
+            if(item.productId == productId){
+              goodsItem = item;
+              item.productNum ++;
             }
-          })
-        }else {
-          Goods.findOne({productId:productId},function (err,doc) {
-            if(err){
-              res.json({
-                status:'1',
-                msg:err.message
-              });
-            }else{
-              if(doc){
-                doc.productNum = 1;
-                doc.checked = '1';
-                userDoc.cartList.push(doc);
-                userDoc.save(function (err,doc) {
-                  if(err){
-                    res.json({
-                      status:'1',
-                      msg:err.message
-                    });
-                  }else {
-                    res.json({
-                      status:'0',
-                      msg:'',
-                      result:'sccucess'
-                    });
-                  }
-                });
-              }else {
+          });
+          if(goodsItem){
+            userDoc.save(function (err,doc) {
+              if(err){
                 res.json({
                   status:'1',
                   msg:err.message
                 });
+              }else {
+                res.json({
+                  status:'0',
+                  msg:'',
+                  result:'sccucess'
+                });
               }
-            }
-          })
+            })
+          }else {
+            Goods.findOne({productId:productId},function (err,doc) {
+              if(err){
+                res.json({
+                  status:'1',
+                  msg:err.message
+                });
+              }else{
+                if(doc){
+                  doc.productNum = 1;
+                  doc.checked = '1';
+                  userDoc.cartList.push(doc);
+                  userDoc.save(function (err,doc) {
+                    if(err){
+                      res.json({
+                        status:'1',
+                        msg:err.message
+                      });
+                    }else {
+                      res.json({
+                        status:'0',
+                        msg:'',
+                        result:'sccucess'
+                      });
+                    }
+                  });
+                }else {
+                  res.json({
+                    status:'1',
+                    msg:err.message
+                  });
+                }
+              }
+            })
+          }
         }
       }
-    }
-  });
+    });
+  }else{
+    res.json({
+      status:'10001',
+      msg:'当前未登录',
+      result:''
+    });
+  }
+
+
 })
 
 module.exports = router;

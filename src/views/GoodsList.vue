@@ -1,9 +1,4 @@
 <template>
-  <div id="app">
-    <nav-header></nav-header>
-    <nav-bread>
-      <span>Goods</span>
-    </nav-bread>
     <el-container class="main">
       <el-header>
         <div class="top">
@@ -47,20 +42,14 @@
         </el-main>
       </el-container>
     </el-container>
-    <nav-footer></nav-footer>
-  </div>
 </template>
 
 <script>
-  import NavHeader from '@/components/NavHeader'
-  import NavBread from '@/components/NavBread'
-  import NavFooter from '@/components/NavFooter'
   import axios from 'axios'
 export default {
   name: 'GoodsList',
   data () {
-    return {
-      username:'',
+    return{
       goodsList: [],
       total:0,
       priceChecked: 'All',
@@ -91,7 +80,6 @@ export default {
     }
   },
   mounted (){
-    this.checklogin();
     this.getGoods();
   },
   methods:{
@@ -105,7 +93,7 @@ export default {
         endPrice:this.endPrice
 
       }
-      axios.get('/goods',{params:params}).then((result)=>{
+      axios.get('/goods/list',{params:params}).then((result)=>{
         let res = result.data;
         if(res.status == '0'){
           if(flag){
@@ -159,26 +147,15 @@ export default {
         productId:productId
       }).then((res)=>{
         let result = res.data;
-        if(result.status == 0){
+        if(result.status == '0'){
           alert(result.result);
-      }else {
+      }else if(result.status=='1') {
           alert('插入失败');
-        }
-      })
-    },
-    checklogin(){
-      axios.get('/users/checklogin').then((res)=>{
-        let resp = res.data;
-        if(resp.status=='0'){
-          this.$store.commit('setName',resp.result)
+        }else {
+          alert('当前未登录');
         }
       })
     }
-  },
-  components: {
-    NavHeader,
-    NavBread,
-    NavFooter
   }
 }
 </script>

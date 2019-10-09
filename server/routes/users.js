@@ -46,17 +46,21 @@ router.post('/login',function (req,res,next) {
 })
 
 router.post('/logout',function (req,res,next) {
-
+  res.cookie('userId','');
+  res.cookie("userName",'');
+  res.json({
+    status:'0',
+    msg:'',
+    result:''
+  })
 })
 
 router.get('/checklogin',function (req, res, next) {
-
   if(req.cookies.userName){
     res.json({
       status:'0',
       msg:'',
       result:req.cookies.userName
-
     })
   }
 

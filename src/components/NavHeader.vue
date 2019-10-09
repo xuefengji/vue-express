@@ -23,7 +23,6 @@
       </span>
     </el-dialog>
   </el-container>
-
 </template>
 
 <style scoped>
@@ -64,6 +63,9 @@
         tiptool:false
       }
     },
+    mounted () {
+      this.checklogin();
+    },
     computed:{
       getName () {
         return this.$store.state.userName
@@ -93,7 +95,17 @@
         axios.post('/users/logout').then((res)=>{
           let resp = res.data;
           if(resp.status=='0'){
-            this.$store.commit('setName','');
+            this.$store.commit('setName',resp.result);
+          }
+        })
+      },
+      checklogin(){
+        axios.get('/users/checklogin').then((res)=>{
+          let resp = res.data;
+          // console.log('1');
+          if(resp.status=='0'){
+            // console.log(2);
+            this.$store.commit('setName',resp.result);
           }
         })
       }
