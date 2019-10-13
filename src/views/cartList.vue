@@ -26,16 +26,16 @@
           <el-col :span="4"><a href="javascript:;"><i class="el-icon-delete col-center"></i></a></el-col>
         </el-row>
         <el-row class="data-row total">
-          <el-col :span="14">
+          <el-col :span="16">
             <div class="text-left">
               <a href="javascript:;" class="select1"></a>
             </div>
             <span class=" col-span col-span1">Select All</span>
           </el-col>
-          <el-col :span="6">
+          <el-col :span="5">
             <span class="col-span1">Item total:0.00</span>
           </el-col>
-          <el-col :span="4">
+          <el-col :span="3">
             <span><a href="javascript:;">CHECKOUT</a></span>
           </el-col>
         </el-row>
