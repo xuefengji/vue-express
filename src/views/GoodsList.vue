@@ -41,6 +41,17 @@
 
         </el-main>
       </el-container>
+      <el-dialog :visible.sync="dialogVisible">
+        <div>
+          <span class="el-icon-success"></span>
+          <span>加入购物车成功</span>
+        </div>
+        <div>
+          <el-button type="primary" @click="dialogVisible=false">返回购物</el-button>
+          <el-button type="danger" @click="goCart">查看购物车</el-button>
+        </div>
+
+      </el-dialog>
     </el-container>
 </template>
 
@@ -55,6 +66,7 @@ export default {
       priceChecked: 'All',
       startPrice:0,
       endPrice:5000,
+      dialogVisible :false,
       priceFiter: [
         {
           startPrice:"0",
@@ -148,13 +160,16 @@ export default {
       }).then((res)=>{
         let result = res.data;
         if(result.status == '0'){
-          alert(result.result);
+          this.dialogVisible = true;
       }else if(result.status=='1') {
-          alert('插入失败');
+          this.$message('插入失败');
         }else {
-          alert('当前未登录');
+          this.$message('当前未登录');
         }
       })
+    },
+    goCart(){
+      this.$router.push('/cartList');
     }
   }
 }

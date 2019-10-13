@@ -1,12 +1,9 @@
 <template>
     <el-container>
-      <div class="bread">
-        <div class="fl">
-          <span>Home /</span>
-          <slot></slot>
-        </div>
-
-      </div>
+      <el-breadcrumb separator="/" class="bread">
+        <el-breadcrumb-item :to="{ path: '/' }">Home</el-breadcrumb-item>
+        <slot></slot>
+      </el-breadcrumb>
     </el-container>
 </template>
 
@@ -20,11 +17,8 @@
   .bread{
     width: 100%;
     height: 60px;
-    line-height:40px;
+    line-height:60px;
     background-color: #f0f0f0;
-  }
-  .fl{
-    float: left;
-    padding: 10px;
+    padding: 0 20px 0;
   }
 </style>

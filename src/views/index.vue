@@ -2,7 +2,7 @@
     <div id="app">
       <nav-header></nav-header>
       <nav-bread>
-        <span>Goods</span>
+        <el-breadcrumb-item>{{getBread}}</el-breadcrumb-item>
       </nav-bread>
       <router-view></router-view>
       <nav-footer></nav-footer>
@@ -20,6 +20,17 @@
 
           }
         },
+      computed:{
+          getBread(){
+            let param = this.$route.path.split('/');
+            // console.log(param);
+            if(param[1]){
+              return param[1];
+            }else {
+              return 'Goods';
+            }
+          }
+      },
         components:{
           NavHeader,
           NavBread,

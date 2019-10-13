@@ -31,18 +31,57 @@ router.post('/login',function (req,res,next) {
           // req.session.userName = doc.userName;
           res.json({
             status: '0',
-            msg: '',
+            msg: '登录成功',
             result: doc.userName
           });
         }else {
           res.json({
             status: '1',
-            msg: 'fail',
+            msg: '登录失败',
           });
         }
       }
     }
   });
+})
+
+router.post('/regist',function (req,res,next) {
+  let params = {userName:req.body.Uname,userPwd: req.body.Pwd}
+  User.findOne({userName:params.userName},function (err,doc) {
+    if(err){
+      res.json({
+        status:'1',
+        msg:err.msg,
+        result:''
+      });
+    }else{
+      if(doc){
+        res.json({
+          status:'1',
+          msg:"用户名已存在，注册失败",
+          result:''
+        });
+      }else{
+        let userId = 10000000078;
+        params.userId = userId;
+        User.insertMany(params,function (err,doc) {
+          if(err){
+            res.json({
+              status:'1',
+              msg:'注册失败',
+              result:''
+            });
+          }else{
+            res.json({
+              status:'0',
+              msg:'注册成功',
+              result:''
+            });
+          }
+        })
+      }
+    }
+  })
 })
 
 router.post('/logout',function (req,res,next) {

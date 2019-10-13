@@ -56,10 +56,10 @@ router.get('/list',function (req,res,next) {
 })
 
 router.post('/addCart',function (req,res,next) {
-  if(req.cookies.userId){
-    var userId = req.cookies.userId;
+  if(req.cookies.userName){
+    var userName = req.cookies.userName;
     var productId = req.body.productId;
-    User.findOne({userId:userId},function (err,userDoc) {
+    User.findOne({userName:userName},function (err,userDoc) {
       if(err){
         res.json({
           status:'1',
