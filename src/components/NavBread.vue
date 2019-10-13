@@ -1,5 +1,5 @@
 <template>
-    <el-container>
+    <el-container class="main">
       <el-breadcrumb separator="/" class="bread">
         <el-breadcrumb-item :to="{ path: '/' }">Home</el-breadcrumb-item>
         <slot></slot>
@@ -14,6 +14,9 @@
 </script>
 
 <style scoped>
+  .main{
+    margin-top: 20px;
+  }
   .bread{
     width: 100%;
     height: 60px;
